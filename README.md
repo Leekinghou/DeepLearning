@@ -15,3 +15,7 @@
 
 # LessonOne目录
 李宏毅2021年春深度学习作业一，分数达到midium line
+
+# DataHandle目录
+- DataPreHandle 实现一些数据预处理
+- DataEnhance 数据增强代码
