@@ -1,7 +1,7 @@
 # DeepLearning
 
 # pytorch目录
-## 线性回归+基础优化算法
+## 线性回归+基础优化算法笔记和代码
 - 使用pytorch实现了线性回归模型
 
 - 实现Softmax分类
