@@ -42,22 +42,7 @@ true_w = torch.tensor([2, -3.4])
 true_b = 4.2
 features, labels = synthetic_data(true_w, true_b, 1000)
 
-
-# In[3]:
-
-
-a = torch.arange(4.)
-
-
-# In[6]:
-
-
-b = torch.reshape(a, (2, 2))
-c = torch.reshape(b, (-1,))
-
-
 # In[32]:
-
 
 print('features:', features[0], '\nlabel:', labels[0])
 
@@ -115,18 +100,23 @@ def linreg(X, w, b):
 def squared_loss(y_hat, y):
     '''均方损失'''
     # 没有乘均值，在优化函数中有
-    return (y_hat - y.reshape(y_hat.shape)) ** 2 /2
+    return (y_hat - y.reshape(y_hat.shape)) ** 2 / 2
 
 
 # # 定义优化算法
-# 在每一步中，使用从数据集中随机抽取的一个小批量，然后根据参数计算损失的梯度。接下来，朝着减少损失的方向更新我们的参数。 下面的函数实现小批量随机梯度下降更新。该函数接受模型参数集合、学习速率和批量大小作为输入。每一步更新的大小由学习速率lr决定。 因为我们计算的损失是一个批量样本的总和，所以我们用批量大小（batch_size）来归一化步长，这样步长大小就不会取决于我们对批量大小的选择。
+# 在每一步中，使用从数据集中随机抽取的一个小批量，然后根据参数计算损失的梯度。
+# 接下来，朝着减少损失的方向更新我们的参数。 下面的函数实现小批量随机梯度下降更新。
+# 该函数接受模型参数集合、学习速率和批量大小作为输入。每一步更新的大小由学习速率lr决定。
+# 因为我们计算的损失是一个批量样本的总和，所以我们用批量大小（batch_size）来归一化步长，这样步长大小就不会取决于我们对批量大小的选择。
 
 # In[38]:
 
 
 # params 包含w、b
 def sgd(params, lr, batch_size):
-    '''小批量随机梯度下降'''
+    '''
+        小批量随机梯度下降
+    '''
     with torch.no_grad():
         for param in params:
             param -= lr * param.grad / batch_size
@@ -157,7 +147,8 @@ for epoch in range(num_epochs):
         print(f'epoch {epoch + 1}, loss {float(train_l.mean()):f}')
 
 
-# 因为我们使用的是自己合成的数据集，所以我们知道真正的参数是什么。 因此，我们可以通过比较真实参数和通过训练学到的参数来评估训练的成功程度。事实上，真实参数和通过训练学到的参数确实非常接近。
+# 因为我们使用的是自己合成的数据集，所以我们知道真正的参数是什么。
+# 因此，我们可以通过比较真实参数和通过训练学到的参数来评估训练的成功程度。事实上，真实参数和通过训练学到的参数确实非常接近。
 
 # In[40]:
 
@@ -195,7 +186,10 @@ data_iter = load_array((features, labels), batch_size)
 next(iter(data_iter))
 
 
-# 我们首先定义一个模型变量net，它是一个Sequential类的实例。Sequential类为串联在一起的多个层定义了一个容器。当给定输入数据，Sequential实例将数据传入到第一层，然后将第一层的输出作为第二层的输入，依此类推。在下面的例子中，模型只包含一个层，因此实际上不需要Sequential。但是由于以后几乎所有的模型都是多层的，在这里使用Sequential熟悉标准的流水线。
+# 我们首先定义一个模型变量net，它是一个Sequential类的实例。Sequential类为串联在一起的多个层定义了一个容器。
+# 当给定输入数据，Sequential实例将数据传入到第一层，然后将第一层的输出作为第二层的输入，依此类推。
+# 在下面的例子中，模型只包含一个层，因此实际上不需要Sequential。
+# 但是由于以后几乎所有的模型都是多层的，在这里使用Sequential熟悉标准的流水线。
 
 # In[54]:
 
@@ -218,7 +212,6 @@ net[0].bias.data.fill_(0)
 # 计算均方误差使用的是MSELoss类，也称为平方\(L_2\)范数。默认情况下，它返回所有样本损失的平均值。
 
 # In[55]:
-
 
 loss = nn.MSELoss()
 
@@ -270,11 +263,6 @@ for epoch in range(num_epochs):
 # 5. 随机梯度下降的随机是什么意思？
 #     随机从样本中采样的意思
 # 6. 为什么要用SGD？是因为大部分实际的loss太复杂推导不出导数为0的解吗？只能逐个batch去逼近？
-#     是的，大部分都没有显性的解，大部分都是NP难问题  
-# 7. 
-
-# In[ ]:
-
-
+#     是的，大部分都没有显性的解，大部分都是NP难问题
 
 
